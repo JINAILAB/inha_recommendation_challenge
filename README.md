@@ -27,9 +27,9 @@
 - 총 9개의 seed에 대해서 ensemble(hard voting)
 - seed : [111, 222, 333, 444, 555, 666, 777, 888, 999]
 - hyper parameter(find by Grid search)
-    - n_layers : [1, <span style="background-color:#fff5b1"> 2 </span>]
-    - dropout : [<span style="background-color:#fff5b1"> 0.3 </span>, 0.5]
-    - reg_weight: [0.1, <span style="background-color:#fff5b1"> 0.01 </span>]
+    - n_layers : [1, **2**]
+    - dropout : [**0.3**, 0.5]
+    - reg_weight: [0.1, **0.01**]
     
 
 ## 실행 방법
