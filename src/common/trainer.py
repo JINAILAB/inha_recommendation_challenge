@@ -222,7 +222,7 @@ class Trainer(AbstractTrainer):
                     self.logger.info(post_info)
 
             # eval: To ensure the test result is the best model under validation data, set self.eval_step == 1
-            if ((epoch_idx + 1) % self.eval_step == 0) & (epoch_idx > 85):
+            if ((epoch_idx + 1) % self.eval_step == 0) & (epoch_idx > 90):
                 valid_start_time = time()
                 valid_score, valid_result = self._valid_epoch(valid_data)
                 self.best_valid_score, self.cur_step, stop_flag, update_flag = early_stopping(
@@ -245,9 +245,11 @@ class Trainer(AbstractTrainer):
                     self.best_valid_result = valid_result
                     self.best_test_upon_valid = test_result
                     
-                if (epoch_idx > 92) & update_flag:
+                if (epoch_idx > 90) & update_flag:
                     
                     self.save_csv(test_data, idx=epoch_idx+1)
+                    seed_name = self.config['seed']
+                    torch.save(self.model.state_dict(), f'./model_ckpt/bestmodel_{seed_name}.ckpt')
                     
 
                 if stop_flag:
