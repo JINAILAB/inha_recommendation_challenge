@@ -4,6 +4,10 @@ python3 ./main.py -m BM3 -d dacon
 
 cd ../
 
+cp 
+mkdir ./predict/recommend
+
+
 # csv파일 predict 폴더로 이동
 cp -r ./src/recommend_topk/*.csv ./predict/recommend
 cd ./predict
