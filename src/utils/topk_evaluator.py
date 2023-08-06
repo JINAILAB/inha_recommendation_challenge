@@ -77,7 +77,7 @@ class TopKEvaluator(object):
         x_df.columns = ['id']+['top_'+str(i) for i in range(max_k)]+['score_'+str(i) for i in range(max_k)]
         x_df = x_df.astype(int)
         x_df.to_csv(file_path, sep='\t', index=False)
-        # print(f'write_csv {file_path}')
+        print(f'write_csv {file_path}')
         
 
     def evaluate(self, batch_matrix_list, eval_data, is_test=False, idx=0):

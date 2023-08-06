@@ -14,6 +14,7 @@ from utils.configurator import Config
 from utils.utils import init_seed, get_model, get_trainer, dict2str
 import platform
 import os
+import torch
 
 
 def quick_start(model, dataset, config_dict, save_model=True):
@@ -108,4 +109,73 @@ def quick_start(model, dataset, config_dict, save_model=True):
                                                                    hyper_ret[best_test_idx][0],
                                                                    dict2str(hyper_ret[best_test_idx][1]),
                                                                    dict2str(hyper_ret[best_test_idx][2])))
+    
+    
 
+## 재현성을 위한 val only 함수 
+def quick_start_val_only(model, dataset, config_dict, ckpt_path):
+
+    # merge config dict
+    config = Config(model, dataset, config_dict)
+    init_logger(config)
+    logger = getLogger()
+    # print config infor
+    logger.info('██Server: \t' + platform.node())
+    logger.info('██Dir: \t' + os.getcwd() + '\n')
+    logger.info(config)
+
+    # load data
+    dataset = RecDataset(config)
+    # print dataset statistics
+    logger.info(str(dataset))
+
+    train_dataset, valid_dataset, test_dataset = dataset.split()
+    logger.info('\n====Training====\n' + str(train_dataset))
+    logger.info('\n====Validation====\n' + str(valid_dataset))
+    logger.info('\n====Testing====\n' + str(test_dataset))
+
+    
+    # wrap into dataloader
+    train_data = TrainDataLoader(config, train_dataset, batch_size=config['train_batch_size'], shuffle=True)
+    (valid_data, test_data) = (
+        EvalDataLoader(config, valid_dataset, additional_dataset=train_dataset, batch_size=config['eval_batch_size']),
+        EvalDataLoader(config, test_dataset, additional_dataset=train_dataset, batch_size=config['eval_batch_size']))
+
+    logger.info('\n\n=================================\n\n')
+    config['seed'] = 0
+    model = get_model(config['model'])(config, train_data).to(config['device'])
+    
+    logger.info(model)
+    
+    model.load_state_dict(torch.load(ckpt_path))
+    
+    logger.info(f'{ckpt_path} loaded')
+    trainer = get_trainer()(config, model)
+
+    logger.info('saving csv file started')
+    trainer.save_csv(test_data)
+
+
+# config = Config(model, dataset, config_dict)
+#     init_logger(config)
+#     logger = getLogger()
+#     # print config infor
+#     logger.info('██Server: \t' + platform.node())
+#     logger.info('██Dir: \t' + os.getcwd() + '\n')
+#     logger.info(config)
+
+#     # load data
+#     dataset = RecDataset(config)
+#     # print dataset statistics
+#     logger.info(str(dataset))
+
+#     train_dataset, valid_dataset, test_dataset = dataset.split()
+#     logger.info('\n====Training====\n' + str(train_dataset))
+#     logger.info('\n====Validation====\n' + str(valid_dataset))
+#     logger.info('\n====Testing====\n' + str(test_dataset))
+
+#     # wrap into dataloader
+#     train_data = TrainDataLoader(config, train_dataset, batch_size=config['train_batch_size'], shuffle=True)
+#     (valid_data, test_data) = (
+#         EvalDataLoader(config, valid_dataset, additional_dataset=train_dataset, batch_size=config['eval_batch_size']),
+#         EvalDataLoader(config, test_dataset, additional_dataset=train_dataset, batch_size=config['eval_batch_size']))

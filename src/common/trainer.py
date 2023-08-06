@@ -18,6 +18,7 @@ from logging import getLogger
 
 from utils.utils import get_local_time, early_stopping, dict2str
 from utils.topk_evaluator import TopKEvaluator
+from tqdm import tqdm
 
 
 class AbstractTrainer(object):
@@ -296,7 +297,7 @@ class Trainer(AbstractTrainer):
         # batch full users
         score_list = []
         batch_matrix_list = []
-        for batch_idx, batched_data in enumerate(eval_data):
+        for batch_idx, batched_data in tqdm(enumerate(eval_data)):
             # predict: interaction without item ids
             scores = self.model.full_sort_predict(batched_data)
             masked_items = batched_data[1]
