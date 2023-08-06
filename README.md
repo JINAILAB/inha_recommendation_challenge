@@ -24,8 +24,9 @@
 
 - **multimodal model** **BM3 (WWW'23) 이용**
     - https://github.com/enoche/BM3
-- 총 9개의 seed에 대해서 ensemble(hard voting)
-- seed : [111, 222, 333, 444, 555, 666, 777, 888, 999]
+- 총 40개의 seed에 대해서 ensemble
+- 각각 50개의 최고점수로 sort후 병합 후 다시 최고 점수로 50개 뽑아냄
+- seed : [111, 222, 333, 444, 555, 666, 777, 888, 999, 11, 22, 33, 44, ...]
 - hyper parameter(find by Grid search)
     - n_layers : [1, **2**]
     - dropout : [**0.3**, 0.5]
