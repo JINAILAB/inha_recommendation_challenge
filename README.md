@@ -54,10 +54,21 @@ pip install -r requirements.txt
 sh prepare_data.sh
 ```
 
-## train & predict
+## train & predict (not recommended)
 
 ---
+총 40개의 model에 대해서 ensemble을 하였습니다.(3-4일 소요)
+ensemble하는 수를 줄이고 싶다면 ./src/configs/overall.yaml 파일을 수정해주세요.
 
 ```bash
 sh train_predict.sh
+```
+
+## val-only
+
+---
+model_ckpt를 다운 후 inference 후 ensemble
+
+```bash
+sh val_only.sh
 ```
