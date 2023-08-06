@@ -1,5 +1,6 @@
 # 10개 seed에 대해서 훈련 진행 
 cd ./src
+mkdir ./model_ckpt
 python3 ./main.py -m BM3 -d dacon
 
 cd ../
