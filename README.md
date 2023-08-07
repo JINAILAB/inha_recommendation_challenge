@@ -24,8 +24,12 @@
 
 - **multimodal model** **BM3 (WWW'23) 이용**
     - https://github.com/enoche/BM3
+- 빠른 infrence를 위해서 90 epoch 이전 training에 대해서 validate을 진행하지 않았습니다.
+- 140epoch에서 훈련을 종료했고 10epoch 이상 validate값이 증가하지 않을 경우 early stopping을 적용했습니다.
+
+### ensemble
 - 총 40개의 seed에 대해서 ensemble
-- 각각 50개의 최고점수로 sort후 병합 후 다시 최고 점수로 50개 뽑아냄
+- 각각 50개의 최고점수로 sort후 병합 후 다시 최고 점수로 50개 뽑아냅니다.
 - seed : [111, 222, 333, 444, 555, 666, 777, 888, 999, 11, 22, 33, 44, ...]
 - hyper parameter(find by Grid search)
     - n_layers : [1, **2**]
@@ -40,7 +44,7 @@
 위에서부터 아래로 실행시키면 predict 폴더에 제출파일(final.csv)이 생깁니다. 
 
 ## installation
-
+- docker에서 진행해서 version이 안 맞을 수도 있습니다.
 ---
 
 ```bash
@@ -48,7 +52,7 @@ pip install -r requirements.txt
 ```
 
 ## data prepare
-
+- dacon google drive에서 데이터 다운 후 data preprocess를 진행합니다.
 ---
 
 ```bash
